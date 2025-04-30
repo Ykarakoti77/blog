@@ -12,11 +12,15 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
     --background: #fcfcfc;
     --foreground: #1a202c;
   }
+}
+
+html {
+  overflow-y: scroll; /* Always show vertical scrollbar */
 }
 
 body {

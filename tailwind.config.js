@@ -1,5 +1,11 @@
 // tailwind.config.js
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx}", // if using App Router
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
