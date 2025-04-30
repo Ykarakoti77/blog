@@ -1,0 +1,121 @@
+import Image from "next/image";
+
+const achievements = [
+  { title: "Candidate Master", platform: "Codeforces", rating: "1951" },
+  { title: "5 Star", platform: "CodeChef", rating: "2061" },
+  { title: "Knight", platform: "LeetCode", rating: "2065" },
+];
+
+const funFacts = [
+  {
+    title: "Vim Enthusiast",
+    description: "I’m always tweaking my Vim setup—because.",
+  },
+  {
+    title: "Typing Speed Aficionado",
+    description: (
+      <>
+        Clocking ~128 WPM — because thinking should be the only bottleneck.
+        <a
+          href="https://www.youtube.com/watch?v=wcL-q_UI_GU"
+          target="_blank"
+          className="text-gray-500 underline ml-1"
+        >
+          (watch)
+        </a>
+        .
+      </>
+    ),
+  },
+  {
+    title: "Chess Enthusiast",
+    description: "Like to play chess during free time.",
+  },
+];
+
+export default function HomePage() {
+  return (
+    <section className="px-1 pt-1">
+      <h2 className="text-2xl font-medium mb-4" id="about">
+        About
+      </h2>
+      <div className="flex flex-row items-start gap-6 mb-10">
+        <div className="text-sm font-light font-mono">
+          <p>
+            Hey, I’m Yash, a software engineer with a strong foundation in
+            Competitive programming. Over the years, I’ve earned titles like
+            Candidate Master on Codeforces, 5-Star on CodeChef—experiences that
+            sharpened my problem-solving and algorithmic thinking.
+          </p>
+          <p className="py-3">
+            I now apply that foundation to building scalable backend systems
+            using .NET and C#, focusing on clean design, reliability, and
+            performance.
+          </p>
+          <p>
+            Currently, I work at Shipotle Technologies, where I contribute to
+            backend architecture and system design for real-world applications.
+          </p>
+        </div>
+
+        {/* Image on the right */}
+        <div className="w-32 h-32 rounded-full overflow-hidden shrink-0">
+          <Image
+            src="/profile.jpeg"
+            alt="Profile"
+            width={128}
+            height={128}
+            className="object-cover"
+          />
+        </div>
+      </div>
+
+      <h2 className="text-2xl font-medium mb-4" id="about">
+        Achievements
+      </h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4 mb-10">
+        {achievements.map(({ title, platform, rating }) => (
+          <div
+            key={title + platform}
+            className="p-2 px-3 border border-gray-700 rounded-lg hover:shadow-sm  transition"
+          >
+            <p className="text-sm font-mono font-medium text-gray-800 pb-0.5">
+              {title}
+            </p>
+            <p className="text-xs font-mono text-gray-500">
+              {platform} — {rating}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <h3 className="text-2xl font-medium mb-4" id="about">
+        Not just code
+      </h3>
+
+      <p className="text-sm font-mono font-light mb-4">
+        While I’m passionate about software engineering, there are a few other
+        things I spend my time on. Here’s a glimpse:
+      </p>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        {funFacts.map(({ title, description }) => (
+          <div
+            key={title}
+            className="p-2 px-3 border border-gray-700 rounded-lg hover:shadow-sm transition"
+          >
+            <p className="text-sm font-mono font-medium text-gray-800 pb-1">
+              {title}
+            </p>
+            <p className="text-xs font-mono text-gray-500">{description}</p>
+          </div>
+        ))}
+      </div>
+
+      <p className="text-xs text-gray-400 text-left mt-6 font-mono">
+        -- NORMAL --
+      </p>
+    </section>
+  );
+}
