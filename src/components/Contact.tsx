@@ -4,31 +4,31 @@ import { FaXTwitter } from "react-icons/fa6";
 import { SiCodeforces, SiCodechef, SiLeetcode } from "react-icons/si";
 
 const navItems = [
-  { icon: FaGithub, label: "GitHub", href: "https://github.com" },
+  { icon: FaGithub, label: "GitHub", href: "https://github.com/Ykarakoti77" },
   {
     icon: SiCodeforces,
     label: "Codeforces",
-    href: "https://github.com",
+    href: "https://github.com/Ykarakoti77",
   },
   {
     icon: SiCodechef,
     label: "Codechef",
-    href: "https://github.com",
+    href: "https://www.codechef.com/users/yash_karakoti",
   },
   {
     icon: SiLeetcode,
     label: "LeetCode",
-    href: "https://github.com",
+    href: "https://leetcode.com/u/yash_karakoti/",
   },
   {
     icon: FaLinkedinIn,
     label: "LinkedIn",
-    href: "https://github.com",
+    href: "https://www.linkedin.com/in/yash-karakoti-412505219/",
   },
   {
     icon: FaXTwitter,
     label: "Twitter",
-    href: "https://github.com",
+    href: "https://x.com/yashkarakoti_",
   },
 ];
 

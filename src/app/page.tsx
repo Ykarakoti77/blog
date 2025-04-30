@@ -61,11 +61,11 @@ export default function HomePage() {
         {/* Image on the right */}
         <div className="w-32 h-32 rounded-full overflow-hidden shrink-0">
           <Image
-            src="/profile.jpeg"
+            src="/profile.png"
             alt="Profile"
             width={128}
             height={128}
-            className="object-cover"
+            className="object-cover grayscale-25 hover:grayscale-0"
           />
         </div>
       </div>
