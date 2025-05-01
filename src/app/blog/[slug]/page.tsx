@@ -8,9 +8,9 @@ import { Metadata } from "next";
 import { format, formatDistanceToNow } from "date-fns";
 
 interface BlogPostProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // Used by App Router to pre-render all blog post paths
@@ -24,9 +24,8 @@ export async function generateStaticParams() {
 }
 
 // Optional: set dynamic meta tags like title/description for each blog
-export async function generateMetadata({
-  params,
-}: BlogPostProps): Promise<Metadata> {
+export async function generateMetadata(props: BlogPostProps): Promise<Metadata> {
+  const params = await props.params;
   const filePath = path.join(process.cwd(), "src/posts", `${params.slug}.mdx`);
   const fileContent = fs.readFileSync(filePath, "utf-8");
   const { data: frontmatter } = matter(fileContent);
@@ -38,7 +37,8 @@ export async function generateMetadata({
 }
 
 // Main component for rendering a single blog post
-export default async function BlogPost({ params }: BlogPostProps) {
+export default async function BlogPost(props: BlogPostProps) {
+  const params = await props.params;
   const filePath = path.join(process.cwd(), "src/posts", `${params.slug}.mdx`);
   const fileContent = fs.readFileSync(filePath, "utf-8");
 
