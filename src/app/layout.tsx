@@ -52,8 +52,8 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white p-4">
-        <div className="max-w-3xl mx-auto p-5">
+      <body className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
+        <div className="max-w-3xl mx-auto p-4 pt-6">
           <Header onToggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode} />
           <main className="mt-8">{children}</main>
           <Footer />

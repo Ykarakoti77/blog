@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.2.5",
     "@material-icons/font": "^1.0.36",
     "@mdx-js/loader": "^3.1.0",
     "@mdx-js/react": "^3.1.0",
     "@next/mdx": "^15.3.1",
+    "@tailwindcss/typography": "^0.5.16",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.503.0",
     "motion": "^12.9.2",

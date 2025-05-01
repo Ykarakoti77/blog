@@ -14,8 +14,10 @@ export default function Header({ onToggleDarkMode, isDarkMode }: HeaderProps) {
   const pathname = usePathname();
 
   return (
-    <header className="flex justify-between items-center">
-      <h1 className="text-2xl text-gray-900 font-bold">Yash Karakoti</h1>
+    <header className="flex justify-between items-center font-sans">
+      <Link href="/" className="hover:bg-gray-100">
+        <h1 className="text-2xl text-gray-900 font-bold">Yash Karakoti</h1>
+      </Link>
 
       <div className="space-x-4 flex items-center">
         <button
@@ -28,6 +30,7 @@ export default function Header({ onToggleDarkMode, isDarkMode }: HeaderProps) {
         <Link
           href="/"
           className={clsx(
+            "font-mono text-sm",
             "px-2.5 py-1 rounded transition duration-100",
             pathname === "/" ? "bg-gray-200" : "hover:bg-gray-100"
           )}
@@ -38,6 +41,7 @@ export default function Header({ onToggleDarkMode, isDarkMode }: HeaderProps) {
         <Link
           href="/blog"
           className={clsx(
+            "font-mono text-sm",
             "px-2.5 py-1 rounded transition duration-100",
             pathname.startsWith("/blog") ? "bg-gray-200" : "hover:bg-gray-100"
           )}

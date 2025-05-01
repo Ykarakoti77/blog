@@ -1,9 +1,11 @@
-// tailwind.config.js
-// eslint-disable-next-line import/no-anonymous-default-export
-export default {
+// tailwind.config.ts
+import typography from "@tailwindcss/typography";
+
+const config = {
   content: [
-    "./app/**/*.{js,ts,jsx,tsx}", // if using App Router
-    "./components/**/*.{js,ts,jsx,tsx}",
+    "./src/app/**/**/*.{js,ts,jsx,tsx}",
+    "./src/components/**/*.{js,ts,jsx,tsx}",
+    "./src/posts/**/*.{mdx,md}",
   ],
   darkMode: "class",
   theme: {
@@ -15,7 +17,12 @@ export default {
         "theme-dark-text": "#edf2f7",
         "theme-light-hover": "#cce3de",
       },
+      fontFamily: {
+        sans: ["InterVariable", "sans-serif"],
+      },
     },
   },
-  plugins: [],
+  plugins: [typography], // Use the imported typography plugin
 };
+
+export default config;

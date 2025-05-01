@@ -40,7 +40,7 @@ export default function HomePage() {
         About
       </h2>
       <div className="flex flex-row items-start gap-6 mb-10">
-        <div className="text-sm font-light font-mono">
+        <div className="text-sm text-gray-500 font-normal font-mono">
           <p>
             Hey, I’m Yash, a software engineer with a strong foundation in
             Competitive programming. Over the years, I’ve earned titles like

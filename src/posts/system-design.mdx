@@ -1,0 +1,293 @@
+---
+title: "System Design"
+date: "2025-04-30"
+author: "yash_karakoti"
+description: "Explore the power of asynchronous programming in C# using async/await, tasks, and best practices for building responsive and scalable applications."
+tags: ["C#", "Asynchronous Programming", "async/await", "Tasks"]
+---
+
+
+### **1. Vertical Scaling (Scale Up)**
+
+- **Meaning:**
+    
+    Increasing the resources (CPU, RAM, storage, disk speed) of a **single server**.
+    
+- **How it works:**
+    
+    Upgrade the same machine to a more powerful one.
+    
+- **Advantages:**
+    - Easier and faster to implement.
+    - No application changes usually needed.
+    - Simpler to manage (single system).
+- **Disadvantages:**
+    - **Hardware Limit:** Physical limits on CPU, RAM upgrades.
+    - **Single Point of Failure:** If the machine crashes, whole system fails.
+    - Becomes **exponentially expensive**
+- **Use Cases:**
+    - Early-stage startups.
+    - Monolithic applications.
+    - Systems where downtime is acceptable for upgrades.
+
+### **2. Horizontal Scaling (Scale Out)**
+
+- **Meaning:**
+    
+    Adding more **servers** (nodes) to distribute the load.
+    
+- **How it works:**
+    
+    Application runs on multiple servers simultaneously, often behind a **load balancer**.
+    
+- **Advantages:**
+    - Virtually **unlimited scalability**.
+    - **High Availability**: Even if one server fails, others can continue.
+    - **Better fault tolerance and redundancy**.
+- **Disadvantages:**
+    - Higher **complexity** (distributed systems, data consistency).
+    - Need to handle **distributed sessions**, **data sharding**, **synchronization**.
+    - **Increased operational overhead** (monitoring, orchestration).
+- **Use Cases:**
+    - Large-scale applications (social media, e-commerce).
+    - Systems demanding **24/7 uptime**.
+    - Cloud-native architectures (Kubernetes clusters, microservices).
+
+### **3. Caching**
+
+- **Meaning:**
+    
+    Storing **frequently accessed data** temporarily in faster storage (RAM, CDN, browser) to **speed up future requests**.
+    
+- **Where caching is used:**
+    - Client-side (Browser cache)
+    - Edge (CDN caching)
+    - Server-side (Application-level, Database query cache)
+- **Common Tools:**
+    
+    Redis, Memcached, Varnish.
+    
+- **Advantages:**
+    - **Lower latency** → faster response times.
+    - **Reduced database load** → fewer expensive queries.
+    - **Cost savings** → reduced compute and database costs.
+- **Disadvantages:**
+    - **Cache Invalidation Complexity** (keeping cache updated with real data).
+    - Risk of **serving stale data**.
+    - May cause **consistency issues** if not managed carefully.
+- **Caching Strategies:**
+    - **Write-through cache:** Write to cache and database simultaneously.
+    - **Write-around cache:** Write only to database, cache populated on read.
+    - **Write-back cache:** Write to cache first, then asynchronously to database.
+- **Use Cases:**
+    - Product details page.
+    - Frequently read but infrequently changing data.
+    - Authentication sessions.
+
+## **4. Load Balancing**
+
+- **Meaning:**
+    
+    Distributing **incoming network traffic** across multiple backend servers.
+    
+- **How it works:**
+    
+    The Load Balancer decides **which server handles which request**.
+    
+- **Common Load Balancers:**
+    - Software: HAProxy, Nginx.
+    - Cloud: AWS ELB, Azure Load Balancer.
+- **Load Balancing Algorithms:**
+    - **Round Robin:** Rotate requests across servers sequentially.
+    - **Least Connections:** Send request to the server with the fewest connections.
+    - **IP Hashing:** Route based on client’s IP.
+- **Advantages:**
+    - **Even traffic distribution** prevents overload.
+    - **Improves system availability**.
+    - Supports **auto-scaling** when new servers are added.
+- **Disadvantages:**
+    - Load Balancer itself needs to be **highly available** (use redundant LB).
+    - Improper configuration can cause **bottlenecks**.
+- **Use Cases:**
+    - Web applications.
+    - Real-time communication apps.
+    - Distributed microservices.
+
+---
+
+### **5. Database Replication**
+
+- **Meaning:**
+    
+    **Copying and maintaining database data** across multiple database servers.
+    
+- **Types of Replication:**
+    - **Synchronous replication:**
+        
+        Write to master and replicas simultaneously — strong consistency, slower writes.
+        
+    - **Asynchronous replication:**
+        
+        Write to master first, replicas catch up later — faster writes, slight data lag.
+        
+- **Roles:**
+    - **Primary (Master):** Handles all writes.
+    - **Secondary (Replica/Slave):** Mostly read-only; used for reads or failover.
+- **Advantages:**
+    - **Higher availability** (read from replicas if primary fails).
+    - **Read scalability** (distribute reads across replicas).
+    - **Disaster recovery** (replicas act as backups).
+- **Disadvantages:**
+    - **Replication lag** (in asynchronous setups).
+    - **Data inconsistency** risks if replication is delayed.
+    - Increased **system complexity**.
+- **Use Cases:**
+    - Applications with **heavy read traffic** (e-commerce product searches).
+    - **Failover systems** where downtime is unacceptable.
+
+---
+
+### **6. Database Partitioning (Sharding)**
+
+- **Meaning:**
+    
+    Splitting large databases into **smaller independent parts (shards)** to improve manageability and performance.
+    
+- **Partitioning Strategies:**
+    - **Horizontal Partitioning (Sharding):**
+        
+        Different rows go to different databases.
+        
+        (e.g., Users with ID 1-1M in Shard 1, 1M-2M in Shard 2.)
+        
+    - **Vertical Partitioning:**
+        
+        Split by tables or columns.
+        
+        (e.g., User profile in one DB, transactions in another.)
+        
+- **Shard Key:**
+    
+    A field (e.g., UserID) used to decide **which shard** the data belongs to.
+    
+- **Advantages:**
+    - **Scales write and storage capacity**.
+    - Reduces **query load** on each server.
+    - Faster response for localized queries.
+- **Disadvantages:**
+    - **Complex cross-shard queries**.
+    - **Shard rebalancing** (resharding) when data grows unevenly.
+    - Increased **application complexity** (client must know shard locations).
+- **Use Cases:**
+    - Massive scale apps (Facebook, YouTube, LinkedIn).
+    - Apps dealing with **billions of records**.
+
+---
+
+### **What is Scalability?**
+
+- **Scalability** in system design means **the ability of a system to handle increasing amounts of work** or to **easily grow** to meet that demand.
+- A scalable system can serve **10 users** today and **10 million users** tomorrow without completely falling apart — **by adding more resources** (servers, databases, etc.) efficiently.
+
+**Key idea:**
+
+If your app is slow or crashes when users grow, it’s **not scalable**.
+
+---
+
+### **1. Clones (Horizontal Scaling)**
+
+> “Just copy-paste your server to more machines.”
+> 
+- You **create multiple identical copies** (clones) of your application servers.
+- These clones are placed behind a **load balancer** which **distributes user requests evenly** across them.
+- **Important Rule:** Each server must be **stateless** — meaning, no local user session, no saved files on disk. Every server should behave identically for a user request.
+
+**For example:**
+
+Steve sends a request — server 2 responds.
+
+Next request — server 9 responds.
+
+Results must **always** be consistent regardless of which clone handles it.
+
+**Session data** should be stored **externally** — in Redis, or a database, not in a server’s memory or hard disk.
+
+---
+
+### **2. Databases (The Real Bottleneck)**
+
+> “When your app slows down, it’s usually the database choking.”
+> 
+
+Even if you have 100 clones of your app servers, they often all connect to **one database**, which becomes the bottleneck.
+
+**Two approaches to database scalability:**
+
+- **Path #1: Stick to SQL (e.g., MySQL)**
+    - Use **Master-Slave Replication**:
+        - Master → Writes only.
+        - Slaves → Reads only.
+    - **Upsize** your Master (more RAM, faster CPU).
+    - **Eventually need**: sharding (splitting database), SQL tuning, hiring DBAs.
+- **Path #2: Go NoSQL early (e.g., MongoDB, CouchDB)**
+    - **Denormalize** data (no JOINs).
+    - **Move joins to the application code**.
+    - NoSQL scales more naturally with huge datasets.
+
+> NoSQL isn’t always better — depends on your app’s needs. But it’s often easier for massive scale early on.
+> 
+
+---
+
+### **3. Caches (Speed Boosters)**
+
+> “Don’t go to the kitchen every time you want a glass of water — keep water on your desk.”
+> 
+
+A **cache** is a **fast-access temporary memory store**, usually in RAM (not on disk), that sits between your app and your database.
+
+**Common tools**: Redis, Memcached
+
+**Flow:**
+
+- App first **checks cache** for data.
+- If data is **not found**, then **query the database**, and **store** the result in cache for next time.
+
+**Caching patterns:**
+
+- **Cached Queries (old method):**
+    
+    Cache the result of SQL queries.
+    
+    Problem: Hard to invalidate when data changes.
+    
+- **Cached Objects (recommended):**
+    
+    Cache **ready-to-use objects** like Product info, User sessions, etc.
+    
+    - Easier to manage.
+    - Faster.
+    - Cleaner invalidation (you know exactly what object to delete/update).
+
+---
+
+### **4. Asynchronism (Don’t Make Users Wait)**
+
+> “Do the heavy lifting behind the scenes.”
+> 
+
+Sometimes a request **takes time** (e.g., generating a big report, resizing images).
+
+Instead of **making the user wait**, we **handle it asynchronously**:
+
+**Two Async styles:**
+
+1. **Precompute (Ahead of Time)**:
+    - Like baking bread before the customer arrives.
+    - Generate heavy content (e.g., blog pages, reports) during off-peak times (cron jobs).
+    - Serve pre-generated content instantly.
+2. **Job Queues (On Demand)**:
+    - If a user starts a heavy task (e.g., “Generate my report!”), you **add a job to a queue** (RabbitMQ, Redis Queue, etc.).
+    - **Worker servers** pick jobs from the queue and process them.
+    - User continues browsing. When the job is done, notify them.
