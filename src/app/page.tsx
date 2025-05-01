@@ -39,27 +39,8 @@ export default function HomePage() {
       <h2 className="text-2xl font-medium mb-4" id="about">
         About
       </h2>
-      <div className="flex flex-row items-start gap-6 mb-10">
-        <div className="text-sm text-gray-500 font-normal font-mono">
-          <p>
-            Hey, I’m Yash, a software engineer with a strong foundation in
-            Competitive programming. Over the years, I’ve earned titles like
-            Candidate Master on Codeforces, 5-Star on CodeChef—experiences that
-            sharpened my problem-solving and algorithmic thinking.
-          </p>
-          <p className="py-3">
-            I now apply that foundation to building scalable backend systems
-            using .NET and C#, focusing on clean design, reliability, and
-            performance.
-          </p>
-          <p>
-            Currently, I work at Shipotle Technologies, where I contribute to
-            backend architecture and system design for real-world applications.
-          </p>
-        </div>
-
-        {/* Image on the right */}
-        <div className="w-32 h-32 rounded-full overflow-hidden shrink-0">
+      <div className="mb-10">
+        <div className="w-32 h-32 rounded-full overflow-hidden shrink-0 float-right mx-5 mb-5">
           <Image
             src="/profile.jpg"
             alt="Profile"
@@ -68,6 +49,28 @@ export default function HomePage() {
             className="object-cover grayscale-25 hover:grayscale-0"
           />
         </div>
+        <div className="text-sm text-gray-500 font-normal font-mono">
+          <p>
+            Hey, I’m Yash, a software engineer with a strong background in
+            competitive programming. My journey through platforms like
+            Codeforces (Candidate Master) and CodeChef (5-Star) has pushed me to
+            think critically, solve problems efficiently, and develop a deep
+            understanding of algorithms and data structures.
+          </p>
+          <p className="my-3">
+            I bring that same problem-solving mindset to backend development,
+            building robust, scalable systems with .NET and C#, grounded in
+            clean architecture and a strong emphasis on performance and
+            reliability.
+          </p>
+          <p>
+            At Shipotle Technologies, I work on designing and developing backend
+            systems that power real-world applications, with an emphasis on
+            robustness and maintainability.
+          </p>
+        </div>
+
+        {/* Image on the right */}
       </div>
 
       <h2 className="text-2xl font-medium mb-4" id="about">
