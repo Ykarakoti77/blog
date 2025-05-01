@@ -1,4 +1,6 @@
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
+
+import Title from "@/components/Title";
 
 const achievements = [
   { title: "Candidate Master", platform: "Codeforces", rating: "1951" },
@@ -36,17 +38,15 @@ const funFacts = [
 export default function HomePage() {
   return (
     <section className="px-1 pt-1">
-      <h2 className="text-2xl font-medium mb-4" id="about">
-        About
-      </h2>
+      <Title title="About" />
       <div className="mb-10">
-        <div className="w-32 h-32 rounded-full overflow-hidden shrink-0 float-right mx-5 mb-5">
-          <Image
+        <div className="w-32 h-32 rounded-full mx-auto overflow-hidden sm:float-right sm:mx-3 mb-5 ">
+          <img
             src="/profile.jpg"
             alt="Profile"
             width={128}
             height={128}
-            className="object-cover grayscale-25 hover:grayscale-0"
+            className="object-cover grayscale-25 hover:grayscale-0 "
           />
         </div>
         <div className="text-sm text-gray-500 font-normal font-mono">
@@ -73,9 +73,7 @@ export default function HomePage() {
         {/* Image on the right */}
       </div>
 
-      <h2 className="text-2xl font-medium mb-4" id="about">
-        Achievements
-      </h2>
+      <Title title="Achievements" />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4 mb-10">
         {achievements.map(({ title, platform, rating }) => (
@@ -93,11 +91,9 @@ export default function HomePage() {
         ))}
       </div>
 
-      <h3 className="text-2xl font-medium mb-4" id="about">
-        Not just code
-      </h3>
+      <Title title="Not Just Code" />
 
-      <p className="text-sm font-mono font-light mb-4">
+      <p className="text-sm text-gray-500 font-normal font-mono mb-4">
         While I’m passionate about software engineering, there are a few other
         things I spend my time on. Here’s a glimpse:
       </p>

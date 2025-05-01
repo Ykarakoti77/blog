@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography"; 
 
-@import '@fontsource/inter';
 
 :root {
   --background: #ffffff;

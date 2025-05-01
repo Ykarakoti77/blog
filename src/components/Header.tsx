@@ -16,7 +16,9 @@ export default function Header({ onToggleDarkMode }: HeaderProps) {
   return (
     <header className="flex justify-between items-center font-sans">
       <Link href="/" className="hover:bg-gray-100">
-        <h1 className="text-2xl text-gray-900 font-bold">Yash Karakoti</h1>
+        <h1 className="text-xl text-black font-bold font-sans">
+          Yash Karakoti
+        </h1>
       </Link>
 
       <div className="space-x-4 flex items-center">
@@ -25,12 +27,12 @@ export default function Header({ onToggleDarkMode }: HeaderProps) {
           onClick={onToggleDarkMode}
           aria-label="Toggle dark mode"
         >
-          <span className="material-icons">dark_mode</span>
+          <i className="material-icons scale-85">dark_mode</i>
         </button>
         <Link
           href="/"
           className={clsx(
-            "font-mono text-sm",
+            "font-mono text-sm font-normal",
             "px-2.5 py-1 rounded transition duration-100",
             pathname === "/" ? "bg-gray-200" : "hover:bg-gray-100"
           )}

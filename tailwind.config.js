@@ -17,9 +17,6 @@ const config = {
         "theme-dark-text": "#edf2f7",
         "theme-light-hover": "#cce3de",
       },
-      fontFamily: {
-        sans: ["InterVariable", "sans-serif"],
-      },
     },
   },
   plugins: [typography], // Use the imported typography plugin
