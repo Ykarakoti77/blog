@@ -10,7 +10,7 @@ type HeaderProps = {
   isDarkMode: boolean; // ✅ Add this line
 };
 
-export default function Header({ onToggleDarkMode, isDarkMode }: HeaderProps) {
+export default function Header({ onToggleDarkMode }: HeaderProps) {
   const pathname = usePathname();
 
   return (
