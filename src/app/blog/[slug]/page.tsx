@@ -58,7 +58,7 @@ export default async function BlogPost(props: BlogPostProps) {
   });
 
   return (
-    <div className="max-w-3xl mx-auto py-7 font-sans">
+    <div className="max-w-3xl mx-auto font-sans">
       <header className="mb-8 border-b border-gray-300 pb-4 ">
         <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">
           {frontmatter.title}
