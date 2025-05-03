@@ -8,7 +8,7 @@ const navItems = [
   {
     icon: SiCodeforces,
     label: "Codeforces",
-    href: "https://github.com/Ykarakoti77",
+    href: "https://codeforces.com/profile/yash_karakoti",
   },
   {
     icon: SiCodechef,
