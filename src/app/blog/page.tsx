@@ -19,10 +19,10 @@ export default async function BlogPage() {
             href={`/blog/${post.slug}`}
             className="p-2 px-3 border border-gray-700 rounded-lg hover:shadow-sm transition"
           >
-            <p className="text-sm font-mono font-medium text-gray-800 pb-1">
+            <p className="text-sm font-mono font-medium text-gray-800 pb-1 dark:text-gray-300">
               {post.title}
             </p>
-            <p className="text-xs font-mono text-gray-500">
+            <p className="text-xs font-mono text-gray-500 dark:text-gray-400">
               {post.date} — {post.description}
             </p>
           </Link>

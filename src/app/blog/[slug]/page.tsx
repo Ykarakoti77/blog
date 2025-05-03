@@ -24,7 +24,9 @@ export async function generateStaticParams() {
 }
 
 // Optional: set dynamic meta tags like title/description for each blog
-export async function generateMetadata(props: BlogPostProps): Promise<Metadata> {
+export async function generateMetadata(
+  props: BlogPostProps
+): Promise<Metadata> {
   const params = await props.params;
   const filePath = path.join(process.cwd(), "src/posts", `${params.slug}.mdx`);
   const fileContent = fs.readFileSync(filePath, "utf-8");
@@ -57,22 +59,22 @@ export default async function BlogPost(props: BlogPostProps) {
 
   return (
     <div className="max-w-3xl mx-auto py-7 font-sans">
-      <header className="mb-8 border-b border-gray-300 pb-4">
-        <h1 className="text-2xl font-semibold text-gray-800">
+      <header className="mb-8 border-b border-gray-300 pb-4 ">
+        <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">
           {frontmatter.title}
         </h1>
-        <p className="text-xs text-gray-500 font-medium font-mono mt-2">
+        <p className="text-xs text-gray-500 dark:text-gray-400 font-medium font-mono mt-2">
           @{frontmatter.author} | {formattedDate} ({relativeDate})
         </p>
         {frontmatter.description && (
-          <p className="text-base text-gray-500 font-light mt-3">
+          <p className="text-base text-gray-500 font-light mt-3 dark:text-gray-400">
             {frontmatter.description}
           </p>
         )}
       </header>
 
       {/* Render compiled MDX content with tailwind typography styles */}
-      <article className="prose"> {mdxContent}</article>
+      <article className="prose dark:prose-invert"> {mdxContent}</article>
     </div>
   );
 }

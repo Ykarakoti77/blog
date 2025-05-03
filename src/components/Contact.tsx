@@ -35,7 +35,7 @@ const navItems = [
 export default function Contact() {
   return (
     <div className="flex justify-center py-4 px-2">
-      <div className="flex flex-wrap justify-center gap-5 bg-gray-50 px-4 py-2 rounded-3xl shadow-sm">
+      <div className="flex flex-wrap justify-center gap-5 bg-gray-50 dark:bg-[#232222] px-4 py-2 rounded-3xl shadow-sm">
         {navItems.map(({ icon: Icon, label, href }, index) => (
           <a
             key={index}
@@ -44,13 +44,13 @@ export default function Contact() {
             rel="noopener noreferrer"
             className="flex flex-col items-center group"
           >
-            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 group-hover:bg-gray-200 transition">
+            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-[#1c1c1c] group-hover:bg-gray-200 transition">
               <Icon
-                className="font-thin text-gray-700 group-hover:text-black"
+                className="font-thin text-gray-700 dark:text-gray-300 group-hover:text-black"
                 size={16}
               />
             </div>
-            <span className=" mt-1 text-gray-600 group-hover:text-black">
+            <span className=" mt-1 text-gray-600  dark:text-gray-400 group-hover:text-black">
               {label}
             </span>
           </a>

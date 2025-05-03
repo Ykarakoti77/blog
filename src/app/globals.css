@@ -7,6 +7,13 @@
   --foreground: #171717;
 }
 
+html.dark {
+  --background: #1c1c1c;
+  --foreground: #f9fafb;
+  --primary: #f9fafb;
+  --accent: #ffffff;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -14,12 +21,8 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --background: #fcfcfc;
-    --foreground: #1a202c;
-  }
-}
+@custom-variant dark (&:where(.dark, .dark *));
+
 
 html {
   overflow-y: scroll; /* Always show vertical scrollbar */

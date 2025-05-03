@@ -21,7 +21,7 @@ const funFacts = [
         <a
           href="https://www.youtube.com/watch?v=wcL-q_UI_GU"
           target="_blank"
-          className="text-gray-500 underline ml-1"
+          className="text-gray-500 underline ml-1 dark:text-gray-400"
         >
           (watch)
         </a>
@@ -49,7 +49,7 @@ export default function HomePage() {
             className="object-cover grayscale-25 hover:grayscale-0 "
           />
         </div>
-        <div className="text-sm text-gray-500 font-normal font-mono">
+        <div className="text-sm text-gray-500 dark:text-gray-400 font-normal font-mono">
           <p>
             Hey, I’m Yash, a software engineer with a strong background in
             competitive programming. My journey through platforms like
@@ -81,10 +81,10 @@ export default function HomePage() {
             key={title + platform}
             className="p-2 px-3 border border-gray-700 rounded-lg hover:shadow-sm  transition"
           >
-            <p className="text-sm font-mono font-medium text-gray-800 pb-0.5">
+            <p className="text-sm font-mono font-medium text-gray-800 dark:text-gray-200 pb-0.5">
               {title}
             </p>
-            <p className="text-xs font-mono text-gray-500">
+            <p className="text-xs font-mono text-gray-500 dark:text-gray-400">
               {platform} — {rating}
             </p>
           </div>
@@ -93,7 +93,7 @@ export default function HomePage() {
 
       <Title title="Not Just Code" />
 
-      <p className="text-sm text-gray-500 font-normal font-mono mb-4">
+      <p className="text-sm text-gray-500 dark:text-gray-400 font-normal font-mono mb-4">
         While I’m passionate about software engineering, there are a few other
         things I spend my time on. Here’s a glimpse:
       </p>
@@ -104,10 +104,12 @@ export default function HomePage() {
             key={title}
             className="p-2 px-3 border border-gray-700 rounded-lg hover:shadow-sm transition"
           >
-            <p className="text-sm font-mono font-medium text-gray-800 pb-1">
+            <p className="text-sm font-mono font-medium text-gray-800 dark:text-gray-200 pb-1">
               {title}
             </p>
-            <p className="text-xs font-mono text-gray-500">{description}</p>
+            <p className="text-xs font-mono text-gray-500 dark:text-gray-400 ">
+              {description}
+            </p>
           </div>
         ))}
       </div>
