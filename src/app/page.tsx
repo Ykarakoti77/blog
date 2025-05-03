@@ -1,6 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
-
 import Title from "@/components/Title";
+import Image from "next/image";
 
 const achievements = [
   { title: "Candidate Master", platform: "Codeforces", rating: "1951" },
@@ -11,7 +10,7 @@ const achievements = [
 const funFacts = [
   {
     title: "Vim Enthusiast",
-    description: "I’m always tweaking my Vim setup—because.",
+    description: "I’m always tweaking my Vim setup.",
   },
   {
     title: "Typing Speed Aficionado",
@@ -41,7 +40,7 @@ export default function HomePage() {
       <Title title="About" />
       <div className="mb-10">
         <div className="w-32 h-32 rounded-full mx-auto overflow-hidden sm:float-right sm:mx-3 mb-5 ">
-          <img
+          <Image
             src="/profile.jpg"
             alt="Profile"
             width={128}
