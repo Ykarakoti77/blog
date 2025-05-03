@@ -41,11 +41,11 @@ export default function HomePage() {
       <div className="mb-10">
         <div className="w-32 h-32 rounded-full mx-auto overflow-hidden sm:float-right sm:mx-3 mb-5 ">
           <Image
-            src="/profile.jpg"
+            src="/profile.png"
             alt="Profile"
             width={128}
             height={128}
-            className="object-cover grayscale-25 hover:grayscale-0 "
+            className="object-cover grayscale-75 hover:grayscale-0 "
           />
         </div>
         <div className="text-sm text-gray-500 dark:text-gray-400 font-normal font-mono">
