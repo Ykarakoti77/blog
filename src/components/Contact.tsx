@@ -44,13 +44,13 @@ export default function Contact() {
             rel="noopener noreferrer"
             className="flex flex-col items-center group"
           >
-            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-[#1c1c1c] group-hover:bg-gray-200 transition">
+            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-[#1c1c1c] group-hover:bg-gray-200 transition dark:group-hover:bg-[#3b3b3b]">
               <Icon
-                className="font-thin text-gray-700 dark:text-gray-300 group-hover:text-black"
+                className="font-thin text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-gray-100"
                 size={16}
               />
             </div>
-            <span className=" mt-1 text-gray-600  dark:text-gray-400 group-hover:text-black">
+            <span className=" mt-1 text-gray-600  dark:text-gray-400 group-hover:text-black dark:group-hover:text-gray-100">
               {label}
             </span>
           </a>
