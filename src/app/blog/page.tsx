@@ -2,6 +2,12 @@ import Link from "next/link";
 import { getAllPosts } from "@/lib/posts"; // Your helper to read MDX metadata
 import Title from "@/components/Title";
 
+export const metadata = {
+  title: "Yash's Blog",
+  description:
+    "A space where I share my thoughts, experiences, and things I’ve learned across topics that interest me.",
+};
+
 export default async function BlogPage() {
   const posts = await getAllPosts();
 
