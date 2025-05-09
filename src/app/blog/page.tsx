@@ -8,7 +8,7 @@ export default async function BlogPage() {
   return (
     <section className="px-1 pt-1">
       <Title title="Blogs" />
-      <p className="text-sm font-light font-mono mb-6">
+      <p className="text-sm font-light font-mono mb-6  text-gray-800 pb-1 dark:text-gray-300">
         Some notes, ideas, and writeups I’ve published over time.
       </p>
 
@@ -22,8 +22,11 @@ export default async function BlogPage() {
             <p className="text-sm font-mono font-medium text-gray-800 pb-1 dark:text-gray-300">
               {post.title}
             </p>
-            <p className="text-xs font-mono text-gray-500 dark:text-gray-400">
-              {post.date} — {post.description}
+            <p className="text-xs font-mono text-gray-500 dark:text-gray-400 pb-1">
+              {post.date}
+            </p>
+            <p className="text-xs font-mono text-gray-500 dark:text-gray-500">
+              {post.description}
             </p>
           </Link>
         ))}
