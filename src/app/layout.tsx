@@ -23,8 +23,8 @@ const description =
   "Yash Karakoti is a software engineer and competitive programmer, passionate about building scalable systems and solving complex problems.";
 
 export const metadata = {
-  title: { title },
-  description: { description },
+  title: title,
+  description: description,
 };
 
 export default function RootLayout({
