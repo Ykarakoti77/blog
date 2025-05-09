@@ -18,10 +18,13 @@ const themeScript = `
     })();
   `;
 
+const title = "Yash Karakoti";
+const description =
+  "Yash Karakoti is a software engineer and competitive programmer, passionate about building scalable systems and solving complex problems.";
+
 export const metadata = {
-  title: "Yash Karakoti",
-  description:
-    "Yash Karakoti is a software engineer and competitive programmer, passionate about building scalable systems and solving complex problems.",
+  title: { title },
+  description: { description },
 };
 
 export default function RootLayout({

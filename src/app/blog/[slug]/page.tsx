@@ -34,9 +34,32 @@ export async function generateMetadata(
   const fileContent = fs.readFileSync(filePath, "utf-8");
   const { data: frontmatter } = matter(fileContent);
 
+  const ogImageUrl = `https://yashkarakotime.vercel.app/api/og?title=${encodeURIComponent(
+    frontmatter.title
+  )}&description=${encodeURIComponent(
+    frontmatter.description
+  )}&date=${encodeURIComponent(
+    frontmatter.date
+  )}&name=Yash%20Karakoti&url=yashkarakotime.vercel.app`;
+
+  const url = `https://yashkarakotime.vercel.app/blog/${params.slug}`;
+
   return {
     title: frontmatter.title,
     description: frontmatter.description,
+    openGraph: {
+      title: frontmatter.title,
+      description: frontmatter.description,
+      type: "article",
+      url: url,
+      images: [ogImageUrl],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: frontmatter.title,
+      description: frontmatter.description,
+      images: [ogImageUrl],
+    },
   };
 }
 
