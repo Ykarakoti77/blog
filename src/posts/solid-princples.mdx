@@ -1,0 +1,251 @@
+---
+title: "SOLID Principles in C#"
+date: "2025-05-09"
+author: "yash_karakoti"
+description: "A concise overview of the SOLID design principles with C# examples."
+tags: ["C#", "SOLID PRINCIPLES"]
+---
+
+### Single responsibility
+
+**A class should have only one reason to change.**
+
+```csharp
+namespace CSharpPlayground.SOLIDPrinciples;
+
+public class Invoice
+{
+    public decimal Amount { get; set; }
+}
+
+// single responsibility
+public class InvoicePrinter
+{
+    public void Print(Invoice invoice)
+    {
+        Console.WriteLine($"Invoice total : {invoice.Amount}");
+    }
+}
+
+// single responsibility
+public class InvoiceSaver
+{
+    public void SaveToDatabase(Invoice invoice)
+    {
+        Console.WriteLine("Invoice saved to DB");
+    }
+}
+
+```
+
+---
+
+### Open - Closed
+
+- Class should be open for extension but closed for modification
+- extend class behaviour without changing existing behaviour or class
+
+```csharp
+namespace CSharpPlayground.SOLIDPrinciples;
+
+public abstract class DiscountStrategy
+{
+    public abstract decimal GetDiscount(decimal total);
+}
+
+public class NoDiscount : DiscountStrategy
+{
+    public override decimal GetDiscount(decimal total)
+    {
+        return 0;
+    }
+}
+
+public class TenPercent : DiscountStrategy
+{
+    public override decimal GetDiscount(decimal total)
+    {
+        return total * 0.10m;
+    }
+}
+
+public class Order
+{
+    public decimal Total { get; set; }
+    public DiscountStrategy Discount { get; set; }
+
+    public decimal GetFinalAmount() => Total - Discount.GetDiscount(Total);
+}
+
+public class OpenClosed
+{
+    public static void Run()
+    {
+        var order = new Order { 
+	        Total = 1000, 
+	        Discount = new TenPercent() 
+	      };
+        Console.WriteLine($"Amount after discount: {order.GetFinalAmount()}");
+    }
+}
+
+```
+
+---
+
+### Liskov Substitution
+
+> Objects of a superclass should be replaceable with objects of its subclasses without breaking the correctness of the program.
+> 
+
+If class S is a subclass of class T, then objects of type T in a program may be replaced with objects of type S **without altering the desirable properties** of the program (correctness, task completion, etc).
+
+```csharp
+namespace CSharpPlayground.SOLIDPrinciples;
+
+public class Bird { }
+
+public class FlyingBirds : Bird
+{
+    public virtual void Fly()
+    {
+        Console.WriteLine("Bird Flying");
+    }
+}
+
+public class Sparrow : FlyingBirds
+{
+    public override void Fly()
+    {
+        Console.WriteLine("Sparrow Flying");
+    }
+}
+
+public class Ostrich : Bird
+{
+    // no flying method behaviorally correct
+}
+
+public class LSP
+{
+    public static void Run()
+    {
+        FlyingBirds bird = new Sparrow();
+        bird.Fly();
+    }
+}
+```
+
+---
+
+### **Interface Segregation**
+
+**Clients should not be forced to depend on methods that they do not use.**
+
+```csharp
+namespace CSharpPlayground.SOLIDPrinciples;
+
+public interface IWorkable
+{
+    void Work();
+}
+
+public interface IFeedable
+{
+    void Eat();
+}
+
+public class HumanWorker : IWorkable, IFeedable
+{
+    public void Work() => Console.WriteLine("Human working...");
+
+    public void Eat() => Console.WriteLine("Eating lunch...");
+}
+
+public class RobotWorker : IWorkable
+{
+    public void Work() => Console.WriteLine("Robot working...");
+}
+
+public class InterfaceSegregation
+{
+    public static void Run()
+    {
+        HumanWorker human = new();
+        RobotWorker robot = new();
+
+        human.Work();
+        human.Eat();
+        robot.Work();
+    }
+}
+```
+
+---
+
+### Dependency Inversion
+
+1. High-level modules should not depend on low-level modules. Both should depend on the abstraction.
+2. Abstractions should not depend on details. Details should depend on abstractions.
+
+```csharp
+// --------- USE DEPENDENCY INVERSION ---------–
+
+// public class EmailSender {
+//     public void Send() {
+//         Console.WriteLine("Email sent");
+//     }
+// }
+
+// public class Notification {
+//     private EmailSender _emailSender = new EmailSender();  // tightly coupled
+
+//     public void Alert(string message) {
+//         _emailSender.Send(message);  // directly uses EmailSender
+//     }
+// }
+
+namespace CSharpPlayground.SOLIDPrinciples;
+
+public interface IMessageSender
+{
+    void Send();
+}
+
+public class EmailSender : IMessageSender
+{
+    public void Send()
+    {
+        Console.WriteLine("Email sent");
+    }
+}
+
+public class SmsSender : IMessageSender
+{
+    public void Send()
+    {
+        Console.WriteLine("Sms sent");
+    }
+}
+
+public class Notification(IMessageSender messageSender)
+{
+    public IMessageSender MessageSender = messageSender;
+
+    public void Notify()
+    {
+        MessageSender.Send();
+    }
+}
+
+class DependencyInversion
+{
+    public static void Run()
+    {
+        var notification = new Notification(new EmailSender());
+        notification.Notify();
+    }
+}
+```
+
+---
