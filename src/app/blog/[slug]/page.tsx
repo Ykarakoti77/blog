@@ -39,7 +39,7 @@ export async function generateMetadata(
   )}&description=${encodeURIComponent(
     frontmatter.description
   )}&date=${encodeURIComponent(
-    frontmatter.date
+    format(new Date(frontmatter.date), "d LLLL yyyy")
   )}&name=Yash%20Karakoti&url=yashkarakotime.vercel.app`;
 
   const url = `https://yashkarakotime.vercel.app/blog/${params.slug}`;

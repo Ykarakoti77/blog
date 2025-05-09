@@ -1,6 +1,6 @@
 import { ImageResponse } from "@vercel/og";
-
-export const runtime = "edge"; // Run on the Edge runtime
+import { readFile } from "fs/promises";
+import { join } from "path";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -12,6 +12,9 @@ export async function GET(request: Request) {
     searchParams.get("description") || "A short description of your website.";
   const date = searchParams.get("date") || "Date Not Provided";
 
+  const interSemiBold = await readFile(
+    join(process.cwd(), "src/assets/Inter-SemiBold.ttf")
+  );
   return new ImageResponse(
     (
       <div
@@ -23,7 +26,6 @@ export async function GET(request: Request) {
           height: "100%",
           backgroundColor: "#f0f0f0",
           padding: "60px",
-          fontFamily: "Arial, sans-serif",
           position: "relative",
         }}
       >
@@ -49,10 +51,15 @@ export async function GET(request: Request) {
             height: "100%",
             backgroundColor: "#f0f0f0",
             padding: "40px",
-            fontFamily: "Arial, sans-serif",
           }}
         >
-          <h1 style={{ fontSize: "60px", margin: "0", color: "#333" }}>
+          <h1
+            style={{
+              fontSize: "70px",
+              fontWeight: "bold",
+              color: "#333",
+            }}
+          >
             {title}
           </h1>
           <p style={{ fontSize: "30px", color: "#666", textAlign: "center" }}>
@@ -65,6 +72,14 @@ export async function GET(request: Request) {
     {
       width: 1200,
       height: 630,
+      fonts: [
+        {
+          name: "Inter",
+          data: interSemiBold,
+          style: "normal",
+          weight: 400,
+        },
+      ],
     }
   );
 }
