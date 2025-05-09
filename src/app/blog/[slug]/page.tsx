@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // app/blog/[slug]/page.tsx
 
 import fs from "fs";
@@ -6,6 +7,7 @@ import matter from "gray-matter";
 import { compileMDX } from "next-mdx-remote/rsc";
 import { Metadata } from "next";
 import { format, formatDistanceToNow } from "date-fns";
+import prettyCodePlugin from "@/lib/rehype-pretty-config";
 
 interface BlogPostProps {
   params: Promise<{
@@ -50,6 +52,11 @@ export default async function BlogPost(props: BlogPostProps) {
   // Compile the MDX content into a React component
   const { content: mdxContent } = await compileMDX({
     source: content,
+    options: {
+      mdxOptions: {
+        rehypePlugins: [prettyCodePlugin],
+      },
+    },
   });
 
   const formattedDate = format(new Date(frontmatter.date), "d LLLL yyyy");
