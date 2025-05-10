@@ -8,6 +8,12 @@ const prettyCodeOptions = {
       node.children.push({ type: "text", value: " " });
     }
   },
+  onVisitHighlightedLine(node: any) {
+    node.properties.className.push("highlighted");
+  },
+  onVisitHighlightedWord(node: any) {
+    node.properties.className = ["word"];
+  },
 };
 
 const prettyCodePlugin: [typeof rehypePrettyCode, typeof prettyCodeOptions] = [

@@ -1,12 +1,17 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts"; // Your helper to read MDX metadata
 import Title from "@/components/Title";
+import { format } from "date-fns";
 
 export const metadata = {
   title: "Yash's Blog",
   description:
     "A space where I share my thoughts, experiences, and things I’ve learned across topics that interest me.",
 };
+
+function getFormattedDate(date: Date) {
+  return format(new Date(date), "d LLLL yyyy");
+}
 
 export default async function BlogPage() {
   const posts = await getAllPosts();
@@ -29,7 +34,7 @@ export default async function BlogPage() {
               {post.title}
             </p>
             <p className="text-xs font-mono text-gray-500 dark:text-gray-400 pb-1">
-              {post.date}
+              {getFormattedDate(post.date)}
             </p>
             <p className="text-xs font-mono text-gray-500 dark:text-gray-500">
               {post.description}

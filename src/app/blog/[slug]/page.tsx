@@ -8,6 +8,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import { Metadata } from "next";
 import { format, formatDistanceToNow } from "date-fns";
 import prettyCodePlugin from "@/lib/rehype-pretty-config";
+import remarkGfm from "remark-gfm";
 
 interface BlogPostProps {
   params: Promise<{
@@ -78,6 +79,7 @@ export default async function BlogPost(props: BlogPostProps) {
     options: {
       mdxOptions: {
         rehypePlugins: [prettyCodePlugin],
+        remarkPlugins: [remarkGfm], // add this
       },
     },
   });

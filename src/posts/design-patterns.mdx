@@ -1,0 +1,603 @@
+---
+title: "Design Patterns | Creational Pattern"
+date: "2025-05-10 18:00"
+author: "yash_karakoti"
+description: "An overview of core creational patterns in C#"
+tags: ["C#", "Design Patterns"]
+---
+
+
+- Typical Solution to commonly occurring problems in software design.
+- High level description of solution
+
+### Pattern
+
+**Usually has**
+
+1. Intent
+2. Motivation
+3. Structure
+4. Code example
+
+**Criticism of pattern**
+
+1. Kludges for a weak programming language
+2. Inefficient solutions
+3. Unjust Use
+
+### Types
+
+1. **Creational patterns**
+    
+    Provide object creation mechanisms that increase flexibility and reuse of existing code.
+    
+2. **Structural patterns** 
+    
+    Explain how to assemble objects and classes into larger structures, while keeping these structures flexible and efficient.
+    
+3. **Behavioral patterns** 
+    
+    Take care of effective communication and the assignment of responsibilities between objects.
+    
+
+| **Creational Patterns** | **Structural Patterns** | **Behavioral Patterns**        |
+|-------------------------|--------------------------|---------------------------------|
+| Factory Method          | Adapter                  | Iterator                        |
+| Abstract Factory        | Bridge                   | Observer                        |
+| Builder                 | Composite                | Strategy                        |
+| Prototype               | Decorator                | Command                         |
+| Singleton               | Facade                   | State                           |
+|                         | Flyweight                | Template Method                 |
+|                         | Proxy                    | Visitor                         |
+|                         |                          | Mediator                        |
+|                         |                          | Memento                         |
+|                         |                          | Chain of Responsibility         |
+
+---
+
+## Creational Patterns
+
+---
+
+## Factory Method
+
+Also called Visual Constructor
+
+> The **Factory Method Design Pattern** is a **creational pattern** that provides an interface for creating objects in a superclass but allows subclasses to alter the type of objects that will be created.
+> 
+
+**Loose coupling** and **adheres to the Open/Closed Principle**
+
+**Core Idea**:
+
+Delegates object creation to subclasses via a factory method.
+
+### Structure
+
+![image.png](/DesignPattern/factoryMethod.png)
+
+| **Role** | **Purpose** | **Example** |
+| --- | --- | --- |
+| Product | Interface for products | IProduct |
+| Concrete Product | Actual implementations of product | ConcreteProductA, B |
+| Creator | Declares FactoryMethod() | Creator (abstract class) |
+| Concrete Creator | Implements FactoryMethod() to return product | ConcreteCreatorA, B |
+| Client | Uses the Creator, not caring what it returns | Main() in Program |
+
+### Applicability
+
+1. If you don’t know before hand the exact types: Separates product construction code from the code that actually uses the product
+2. Way to extend internal Components.
+
+```csharp
+namespace CSharpPlayground.src.DesignPatterns.CreationalPattern;
+
+public interface IProduct
+{
+    public void DoSomething();
+}
+
+public class ConcreteProductA : IProduct
+{
+    public void DoSomething()
+    {
+        Console.WriteLine("ConcreteProductA is doing something.");
+    }
+}
+
+public class ConcreteProductB : IProduct
+{
+    public void DoSomething()
+    {
+        Console.WriteLine("ConcreteProductB is doing something.");
+    }
+}
+
+public abstract class Creator
+{
+    // factory method
+    public abstract IProduct GetProduct();
+
+    public void PrintInfo()
+    {
+        IProduct product = GetProduct();
+        product.DoSomething();
+    }
+}
+
+public class ConcreateCreatorA : Creator
+{
+    public override IProduct GetProduct()
+    {
+        return new ConcreteProductA();
+    }
+}
+
+public class FactorMethod
+{
+    public static void Run()
+    {
+        Creator A = new ConcreateCreatorA();
+        A.PrintInfo();
+    }
+}
+
+```
+
+---
+
+## Abstract Factory
+
+> **Abstract Factory** is a creational design pattern that lets you produce families of related objects without specifying their concrete classes.
+> 
+
+
+### Structure
+
+![image.png](/DesignPattern/abstractFactory2.png)
+
+### Code
+
+```csharp
+namespace CSharpPlayground.src.DesignPatterns.CreationalPattern;
+
+#region Abstract Products
+public interface IButton
+{
+    public void DoSomething();
+}
+
+public interface ICheckBox
+{
+    public void DoSomething();
+}
+#endregion
+
+#region Concrete Product
+public class WindowButton : IButton
+{
+    public void DoSomething() => Console.WriteLine("Window Button working");
+}
+
+public class MacButton : IButton
+{
+    public void DoSomething() => Console.WriteLine("Mac Button working");
+}
+
+public class WindowCheckBox : ICheckBox
+{
+    public void DoSomething() => Console.WriteLine("WindowCheckBox working");
+}
+
+public class MacCheckBox : ICheckBox
+{
+    public void DoSomething() => Console.WriteLine("MacCheckBox working");
+}
+#endregion
+
+#region  Abstract Factory
+public interface IGUIFactory
+{
+    public IButton GetButton();
+    public ICheckBox GetCheckBox();
+}
+#endregion
+
+#region  Concrete Factory
+public class MacFactory : IGUIFactory
+{
+    public IButton GetButton() => new MacButton();
+
+    public ICheckBox GetCheckBox() => new MacCheckBox();
+}
+
+public class WindowFactory : IGUIFactory
+{
+    public IButton GetButton() => new WindowButton();
+
+    public ICheckBox GetCheckBox() => new WindowCheckBox();
+}
+#endregion
+
+public class AbstractFactory
+{
+    public static void Run()
+    {
+        IGUIFactory factory = new MacFactory();
+        var button = factory.GetButton();
+        var checkBox = factory.GetCheckBox();
+
+        button.DoSomething();
+        checkBox.DoSomething();
+    }
+}
+
+```
+
+### **When to Use**
+
+- When your code needs to **work with multiple families** of related objects (like Mac vs Windows UI).
+- When you want to **decouple object creation** from the client logic.
+- When you want to **ensure consistency** among related objects.
+
+| Feature               | Factory Method                                      | Abstract Factory                                           |
+|-----------------------|-----------------------------------------------------|------------------------------------------------------------|
+| **Purpose**           | Creates a *single product*                          | Creates *families of related products*                     |
+| **Abstraction Level** | Single factory method                               | Factory interface with multiple methods                    |
+| **Creation Control**  | Subclass chooses what to create                     | Factory decides which product family to instantiate        |
+| **Client Awareness**  | Knows product interface and creator                 | Knows only the abstract factory and product interfaces     |
+| **Use Case**          | `CreatePizza(type)` in a pizza store                | `CreateButton()` + `CreateCheckbox()` for themed UI        |
+| **Design Focus**      | Vary one product in a hierarchy                     | Ensure consistency across multiple related hierarchies     |
+| **Output Example**    | One pizza (e.g., `CheesePizza`)                     | Coordinated widgets (e.g., `MacButton`, `MacCheckbox`)     |
+| **Pattern Type**      | *Class-level* (inheritance – compile-time binding)  | *Object-level* (composition – runtime binding)             |
+| **Flexibility**       | Less flexible; tied to one product line             | More flexible; supports multiple product families          |
+| **Typical Classes**   | `Creator`, `Product`                                | `AbstractFactory`, `ProductFamily` interfaces              |
+
+---
+
+## Singleton Pattern
+
+> **Singleton** is a creational design pattern that lets you ensure that a class has only one instance, while providing a global access point to this instance.
+> 
+
+Why would anyone want to control how many instances a class has? The most common reason for this is to control access to some shared resource—for example, a database or a file.
+
+### Problem
+
+1. **Ensure that a class has just a single instance**
+2. **Provide a global access point to that instance**
+
+### Solution
+
+1. Make the default constructor **private**, to prevent other objects from using the `new` operator with the Singleton class.
+2. Create a static creation method that acts as a constructor. Under the hood, this method calls the private constructor to create an object and saves it in a static field. All following calls to this method return the cached object.
+
+### Structure
+
+| **Component** | **Role** |
+| --- | --- |
+| private static Singleton _instance | Holds the single instance |
+| private constructor | Prevents external instantiation |
+| public static Singleton Instance | Global access point to the single instance |
+| lock | Ensures thread safety |
+
+### Code
+
+> We use lock to make Singleton (or any shared resource access) **thread-safe** — because in a **multi-threaded environment**, if multiple threads access the singleton at the same time **before the instance is created**, it can lead to creation of two instances.
+> 
+
+> Using Locks
+> 
+
+```csharp
+namespace CSharpPlayground.src.DesignPatterns.CreationalPattern;
+
+// using Locks
+public class Logger
+{
+    private static Logger? _instance;
+    private static readonly object _lock = new();
+
+    private Logger() { }
+
+    public static Logger Instance
+    {
+        get
+        {
+            lock (_lock)
+            {
+                _instance ??= new Logger();
+                return _instance;
+            }
+        }
+    }
+
+    public void Log(string message)
+    {
+        Console.WriteLine($"[LOG] {DateTime.Now}: {message}");
+    }
+}
+
+public class SingletonDesign
+{
+    public static void Run()
+    {
+        Logger _logger = Logger.Instance;
+        _logger.Log("work")
+    }
+}
+
+```
+
+> Modern way using Lazy in C#
+> 
+
+```csharp
+// Mordern way in C#
+public class LoggerModern
+{
+    private static Lazy<LoggerModern> _instance = new(() => new LoggerModern());
+
+    private LoggerModern() { }
+
+    public static LoggerModern Instance => _instance.Value;
+
+    public void Log(string message)
+    {
+        Console.WriteLine($"[LOG] {DateTime.Now}: {message}");
+    }
+}
+
+public class SingletonDesign
+{
+    public static void Run()
+    {
+
+        LoggerModern _logger2 = LoggerModern.Instance;
+        _logger2.Log("code");
+    }
+}
+```
+
+### Quick Detour
+
+### locks
+
+lock statement in C# is used to **prevent multiple threads** from executing a block of code at the same time
+
+```csharp
+lock (someObject)
+{
+    // Critical section - only one thread can execute this at a time
+}
+```
+
+- someObject is a **reference type** (usually private static readonly object _lock = new();)
+- C# uses **Monitor.Enter and Monitor.Exit** under the hood.
+
+### lazy
+
+`Lazy<T>` is a .NET class that allows lazy initialization — meaning the object is not created until it’s first needed.
+
+It’s also thread-safe by default.
+
+```csharp
+Lazy<Logger> _logger = new(() => new Logger());
+
+Logger logger = _logger.Value; // Instantiates Logger only here
+```
+
+- Internally `Lazy<T>` uses a **delegate (Func)** to initialize the object.
+
+---
+
+## Builder Pattern
+
+> The Builder Pattern is used to construct a complex object step by step. It separates the construction of a complex object from its representation, so the same construction process can create different representations.
+> 
+
+### **Problem It Solves**
+
+Imagine you have a House class with 20 optional fields—garage, swimming pool, garden, number of floors, solar panels, etc.
+
+If you use constructors or telescoping constructors like:
+
+```csharp
+new House(true, false, true, 2, true, false, ...);
+```
+
+### **Solution — Use Builder Pattern**
+
+- Create a separate Builder class with methods to set optional fields.
+- Finally, call Build() to get the constructed object.
+
+### **Structure of Builder Pattern**
+
+1. Product : The complex object being built
+2. Builder Interface : Declares building steps
+3. ConcreteBuilder : Implements the steps
+4. Director (optional) : Orchestrates the build steps
+5. Client : Uses builder to build the product
+
+```csharp
+namespace CSharpPlayground.src.DesignPatterns.CreationalPattern;
+
+// Product
+public class House
+{
+    public bool HasGarage { get; set; }
+    public bool HasGarden { get; set; }
+    public int Floors { get; set; }
+
+    public override string ToString() =>
+        $"House with {Floors} floor(s), "
+        + $"{(HasGarage ? "Garage, " : "")}"
+        + $"{(HasGarden ? "Garden" : "")}";
+}
+
+// Builder Interface
+public interface IHouseBuilder
+{
+    IHouseBuilder BuildGarage(); // fluent interface : method chaining
+    IHouseBuilder BuildGarden();
+    IHouseBuilder SetFloors(int floors);
+    House Build();
+}
+
+// Concrete Builder
+public class ModernHouseBuilder : IHouseBuilder
+{
+    private House _house = new();
+
+    public House Build() => _house;
+
+    public IHouseBuilder BuildGarage()
+    {
+        _house.HasGarage = true;
+        return this;
+    }
+
+    public IHouseBuilder BuildGarden()
+    {
+        _house.HasGarden = true;
+        return this;
+    }
+
+    public IHouseBuilder SetFloors(int floors)
+    {
+        _house.Floors = floors;
+        return this;
+    }
+}
+
+// director
+public class HouseDirector
+{
+    public House ConstructLuxuryHouse(IHouseBuilder builder)
+    {
+        return builder.BuildGarage().BuildGarden().SetFloors(2).Build();
+    }
+}
+
+public class BuilderPattern
+{
+    public static void Run()
+    {
+        var builder = new ModernHouseBuilder();
+        var director = new HouseDirector();
+        House house = director.ConstructLuxuryHouse(builder);
+        Console.WriteLine(house);
+    }
+}
+```
+
+| **Feature** | **Description** |
+| --- | --- |
+| **Use Case** | Complex objects with many optional fields |
+| **Fluent Interface** | Method chaining is often used (.BuildGarage().Build()) |
+| **Thread Safe?** | Depends on implementation |
+
+---
+
+## Prototype Pattern
+
+> Creates new objects by copying an existing object (the prototype), instead of creating from scratch.
+> 
+
+It’s especially useful when:
+
+- Object creation is **expensive** (e.g., due to resource-heavy setup).
+- You want to **avoid subclassing** just to copy objects.
+- You want to **dynamically create objects at runtime**.
+
+### Structure
+
+1. Prototype Interface
+2. Concrete Prototype
+3. Client
+
+### Code
+
+```csharp
+namespace CSharpPlayground.src.DesignPatterns.CreationalPattern;
+
+public interface IPrototype<T>
+{
+    T Clone();
+}
+
+public class Person(string name, Address address) : IPrototype<Person>
+{
+    public string Name { get; set; } = name;
+    public Address Address { get; set; } = address;
+
+    public Person Clone()
+    {
+        return new Person(Name, new Address(Address.City));
+    }
+
+    public override string ToString()
+    {
+        return $"{Name} from {Address.City}";
+    }
+}
+
+public class Address(string city)
+{
+    public string City = city;
+}
+
+public class Prototype
+{
+    public static void Run()
+    {
+        var person1 = new Person("John", new Address("New York"));
+        var person2 = person1.Clone();
+        person2.Name = "Jane";
+        person2.Address.City = "Boston";
+
+        Console.WriteLine(person1);
+        Console.WriteLine(person2);
+    }
+}
+
+```
+
+---
+
+### Shallow Copy vs Deep Copy
+
+```csharp
+// Shallow Copy
+var person1 = new Person { Name = "John", Address = new Address { City = "NY" } };
+var person2 = person1.MemberwiseClone() as Person;
+
+person2.Name = "Jane";
+person2.Address.City = "Boston";
+
+Console.WriteLine(person1.Name);         // John ✅ (different string)
+Console.WriteLine(person1.Address.City); // Boston ❌ (shared Address)
+
+// Deep Copy
+var person2 = new Person
+{
+    Name = person1.Name,
+    Address = new Address { City = person1.Address.City } // new Address
+};
+
+person2.Name = "Jane";
+person2.Address.City = "Boston";
+
+Console.WriteLine(person1.Name);         // John ✅
+Console.WriteLine(person1.Address.City); // NY ✅
+```
+
+| **Feature** | **Shallow Copy** | **Deep Copy** |
+| --- | --- | --- |
+| **Top-level object** | ✔️ New instance | ✔️ New instance |
+| **Nested objects** | ❌ Shared references (same objects) | ✔️ New instances of nested objects |
+| **Copying method** | MemberwiseClone() | Manual copy or serialization |
+
+---
+
+Ref: [https://refactoring.guru/design-patterns/](https://refactoring.guru/design-patterns/criticism)
