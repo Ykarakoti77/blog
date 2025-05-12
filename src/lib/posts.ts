@@ -7,7 +7,7 @@ const postsDirectory = path.join(process.cwd(), "src/posts");
 export async function getAllPosts() {
   const filenames = fs.readdirSync(postsDirectory);
 
-  return filenames.map((filename) => {
+  const posts = filenames.map((filename) => {
     const slug = filename.replace(/\.mdx?$/, "");
     const fullPath = path.join(postsDirectory, filename);
     const fileContents = fs.readFileSync(fullPath, "utf8");
@@ -20,4 +20,9 @@ export async function getAllPosts() {
       description: data.description,
     };
   });
+
+  // Sort posts by date (most recent first)
+  return posts.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 }

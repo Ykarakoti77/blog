@@ -11,7 +11,7 @@ export default function Header() {
 
   return (
     <header className="flex justify-between items-center font-sans">
-      <Link href="/" className="hover:bg-gray-100">
+      <Link href="/" className="hover:bg-gray-100 dark:hover:bg-[#3030309e]">
         <h1 className="text-xl text-black dark:text-gray-200 font-bold font-sans">
           Yash Karakoti
         </h1>

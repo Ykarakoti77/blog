@@ -1,0 +1,529 @@
+---
+title: "Design Patterns | Structural Pattern"
+date: "2025-05-12 11:00"
+author: "yash_karakoti"
+description: "An overview of structural design patterns in C#"
+tags: ["C#", "Design Patterns", "Structural Design Pattern"]
+---
+
+
+**Structural Design Patterns** are design patterns in software engineering that deal with the composition of classes and objects to form larger structures while keeping these structures flexible and efficient. They help ensure that if one part of a system changes, the entire structure doesn’t need to.
+
+### Structural Design Patterns
+
+1. Adapter 
+2. Bridge 
+3. Decorator 
+4. Facade 
+5. Proxy
+6. Composite
+
+## Adapter Pattern
+
+> The **Adapter Pattern** is a structural design pattern that **allows two incompatible interfaces to work together**. It acts like a **bridge** between the existing code (which you don’t want to or can’t change) and a new system that expects a different interface.
+> 
+
+### **Common Use Cases**
+
+- Integrating with legacy systems
+- Wrapping third-party libraries
+- Unifying multiple implementations under one interface
+
+| **Term** | **Role** |
+| --- | --- |
+| **Target** | The interface your **client code expects** to work with  |
+| **Adaptee** | An **existing class** you want to use, but its interface is **incompatible**  |
+| **Adapter** | The **middleman** that makes the Adaptee compatible with the Target |
+
+```csharp
+namespace CSharpPlayground.src.DesignPatterns.StructuralPattern;
+
+// Target
+public interface IInvoiceExporter
+{
+    public void ExportInvoice(Invoice invoice);
+}
+
+public class Invoice
+{
+    public string CustomerName { get; set; }
+    public decimal Amount { get; set; }
+}
+
+// Adaptee
+public class ThirdPartyPdfGenerator
+{
+    public void GeneratePdf(PdfData pdfData)
+    {
+        Console.WriteLine($"Generating PDF for {pdfData.Name} with amount {pdfData.Amt}");
+    }
+}
+
+public class PdfData
+{
+    public string Name { get; set; }
+    public decimal Amt { get; set; }
+}
+
+// Adapter
+public class PdfExportAdapter(ThirdPartyPdfGenerator pdfGenerator) : IInvoiceExporter
+{
+    private readonly ThirdPartyPdfGenerator _pdfGenertor = pdfGenerator;
+
+    public void ExportInvoice(Invoice invoice)
+    {
+        var pdfData = new PdfData { Name = invoice.CustomerName, Amt = invoice.Amount };
+
+        _pdfGenertor.GeneratePdf(pdfData);
+    }
+}
+
+public class AdapterPattern
+{
+    public static void Run()
+    {
+        Invoice invoice = new() { CustomerName = "Alice", Amount = 499.99m };
+
+        // Use adapter to talk to 3rd-party library
+        IInvoiceExporter exporter = new PdfExportAdapter(new ThirdPartyPdfGenerator());
+
+        exporter.ExportInvoice(invoice);
+    }
+}
+
+```
+
+| **Role** | **Class** |
+| --- | --- |
+| **Target** | IInvoiceExporter (what your system uses) |
+| **Adaptee** | ThirdPartyPdfGenerator (3rd-party API) |
+| **Adapter** | PdfExportAdapter |
+| **Client** | AdapterPattern.Run() |
+
+### **Object adapter**
+
+This implementation uses the object composition principle: the adapter implements the interface of one object and wraps the other one. It can be implemented in all popular programming languages.
+
+### **Class adapter**
+
+This implementation uses inheritance: the adapter inherits interfaces from both objects at the same time. Note that this approach can only be implemented in programming languages that support multiple inheritance, such as C++.
+
+---
+
+## Bridge Pattern
+
+> The **Bridge Pattern** is used to **decouple an abstraction from its implementation**, so that the two can vary **independently**.
+> 
+
+> It lets you **separate what you do from how you do it**
+> 
+
+### Structure
+
+The Bridge Pattern splits your design into **two class hierarchies**:
+
+| **Layer** | **Purpose** | **Example** |
+| --- | --- | --- |
+| **Abstraction** | High-level control logic | RemoteControl |
+| **Implementation** | Low-level implementation logic | TV, Radio |
+
+Connected via a **bridge (composition)**
+
+**Example:** 
+Control multiple devices (TV, Radio) using multiple remotes (Basic, Advanced)
+
+```csharp
+namespace CSharpPlayground.src.DesignPatterns.StructuralPattern;
+
+// Implementor Interface
+public interface IDevice
+{
+    void TurnOn();
+    void TurnOff();
+}
+
+#region Concrete Implementors
+public class Tv : IDevice
+{
+    public void TurnOff()
+    {
+        Console.WriteLine("TV is turned off.");
+    }
+
+    public void TurnOn()
+    {
+        Console.WriteLine("TV is turned on.");
+    }
+}
+
+public class Radio : IDevice
+{
+    public void TurnOff()
+    {
+        Console.WriteLine("Radio is turned off.");
+    }
+
+    public void TurnOn()
+    {
+        Console.WriteLine("Radio is turned on.");
+    }
+}
+#endregion
+
+// Abstraction
+public abstract class RemoteControl(IDevice device)
+{
+    protected IDevice _device = device;
+
+    public virtual void TogglePower()
+    {
+        Console.WriteLine("Toggling power...");
+        _device.TurnOn();
+    }
+}
+
+// Refined Abstraction
+public class AdvancedRemoteControl(IDevice device) : RemoteControl(device)
+{
+    public override void TogglePower()
+    {
+        Console.WriteLine("Advanced remote control toggling power...");
+        _device.TurnOn();
+    }
+
+    public void TurnOffDevice()
+    {
+        _device.TurnOff();
+    }
+}
+
+public class BridgePattern
+{
+    public static void Run()
+    {
+        IDevice tv = new Tv();
+        AdvancedRemoteControl remote = new(tv);
+
+        remote.TogglePower(); // TV is ON
+        remote.TurnOffDevice(); // TV is OFF
+    }
+}
+
+```
+
+### **When to Use Bridge Pattern**
+
+- When you have multiple variants of an abstraction and multiple implementations (e.g., multiple remotes & devices)
+- To avoid a Cartesian explosion of subclasses (e.g., TVWithBasicRemote, RadioWithAdvancedRemote, etc.)
+- When both interface and implementation need to evolve independently
+
+---
+
+## Decorator Pattern
+
+> **dynamically add new behaviors or responsibilities** to objects without altering their structure or affecting other objects of the same class
+> 
+
+**Summary : add new functionality to an object at runtime**
+
+### **Key Concepts**
+
+- **Component (Interface or Abstract Class):** Defines the interface for objects that can have responsibilities added to them dynamically.
+- **Concrete Component:** The original object to which new functionalities can be added.
+- **Decorator:** Implements the same interface and has a reference to a component object.
+- **Concrete Decorators:** Extend the functionalities of the component dynamically.
+
+```csharp
+namespace CSharpPlayground.src.DesignPatterns.StructuralPattern;
+
+// 1. Base Component: Defines the interface that all notifiers will implement
+public interface INotifier
+{
+    public void SendMessage(string message);
+}
+
+// 2. Concrete Component: Implements the basic notification logic
+public class EmailNotifier : INotifier
+{
+    public void SendMessage(string message) =>
+        Console.WriteLine($"Sent Email Notification {message}");
+}
+
+// 3. Base Decorator: Implements INotifier and wraps another INotifier
+public abstract class NotificationDecorator(INotifier wrapee) : INotifier
+{
+    protected INotifier _wrapee = wrapee;
+
+    // Delegates message sending to the wrapped notifier
+    public virtual void SendMessage(string message)
+    {
+        _wrapee.SendMessage(message);
+    }
+}
+
+// 4. Concrete Decorator: Adds SMS functionality on top of wrapped notifier
+public class SmsNotifier(INotifier notifier) : NotificationDecorator(notifier)
+{
+    public override void SendMessage(string message)
+    {
+        base.SendMessage(message);
+        Console.WriteLine($"Sent Sms Notification {message}");
+    }
+}
+
+// 5. Concrete Decorator: Adds Slack functionality on top of wrapped notifier
+public class SlackNotifier(INotifier notifier) : NotificationDecorator(notifier)
+{
+    public override void SendMessage(string message)
+    {
+        base.SendMessage(message);
+        Console.WriteLine($"Send Slack Notification {message}");
+    }
+}
+
+public class DecoratorPattern
+{
+    public static void Run()
+    {
+        INotifier notifier = new EmailNotifier();
+        notifier = new SmsNotifier(notifier);
+        notifier = new SlackNotifier(notifier);
+
+        notifier.SendMessage("Hello");
+    }
+}
+```
+
+---
+
+## Facade Pattern
+
+> The **Facade Pattern** is a **structural design pattern** that provides a **simplified interface** to a **larger and more complex system of classes**, libraries, or APIs.
+> 
+
+**Use cases**
+
+- When you want to **simplify complex systems** for the client code.
+- When you need to **decouple** subsystems from clients.
+- When designing **SDKs, APIs, libraries**, or **middleware**.
+
+```csharp
+namespace CSharpPlayground.src.DesignPatterns.StructuralPattern;
+
+// Subsystems
+public class CPU
+{
+    public void Freeze() => Console.WriteLine("CPU Freeze");
+
+    public void Jump(long position) => Console.WriteLine($"Jump to {position}");
+
+    public void Execute() => Console.WriteLine("Execute");
+}
+
+public class Memory
+{
+    public void Load(long position, string data) =>
+        Console.WriteLine($"Loading {data} at {position}");
+}
+
+public class HardDrive
+{
+    public string Read(long lba, int size) => $"OS_BOOT_DATA";
+}
+
+//Facade
+public class ComputerFacade
+{
+    private readonly CPU _cpu;
+    private readonly Memory _memory;
+    private readonly HardDrive _hardDrive;
+
+    public ComputerFacade()
+    {
+        _cpu = new CPU();
+        _memory = new Memory();
+        _hardDrive = new HardDrive();
+    }
+
+    public void StartComputer()
+    {
+        _cpu.Freeze();
+        string bootData = _hardDrive.Read(0, 1024);
+        _memory.Load(0, bootData);
+        _cpu.Jump(0);
+        _cpu.Execute();
+    }
+}
+
+public class FacadePattern
+{
+    public static void Run()
+    {
+        var computer = new ComputerFacade();
+        computer.StartComputer();
+    }
+}
+```
+
+---
+
+## Proxy Pattern
+
+> The **Proxy Pattern** in C# is a structural **design pattern** that provides a **surrogate or placeholder** for another object to **control access** to it.
+> 
+
+**UseCases**
+
+- You want to **add additional behavior** (like logging, lazy loading, or access control) without changing the original object.
+- The actual object is **resource-intensive** to create.
+- You want to **protect access** to a sensitive object.
+
+### **Types of Proxy**
+
+1. **Virtual Proxy** – Lazy loads an object.
+2. **Protection Proxy** – Controls access (e.g., based on user roles).
+3. **Remote Proxy** – Accesses objects in a different address space.
+4. **Logging Proxy / Smart Proxy** – Adds extra functionality like caching or logging.
+
+```csharp
+namespace CSharpPlayground.src.DesignPatterns.StructuralPattern;
+
+public interface IDocument
+{
+    public void Display();
+}
+
+public class RealDocument : IDocument
+{
+    private readonly string _filename;
+
+    public RealDocument(string filename)
+    {
+        _filename = filename;
+        LoadFromDisk(); // Simulate heavy operation
+    }
+
+    private void LoadFromDisk()
+    {
+        Console.WriteLine($"Loading document: {_filename}");
+    }
+
+    public void Display()
+    {
+        Console.WriteLine($"Reading document {_filename}");
+    }
+}
+
+public class ProxyDocument(string role, string filename) : IDocument
+{
+    private RealDocument _realDocument;
+
+    public void Display()
+    {
+        if (role != "USER")
+        {
+            Console.WriteLine("Invalid Operation");
+            return;
+        }
+
+        // Lazy Loading
+        _realDocument ??= new RealDocument(filename);
+
+        _realDocument.Display();
+    }
+}
+
+public class ProxyPattern
+{
+    public static void Run()
+    {
+        IDocument document = new ProxyDocument("USER", "designPattern.mdx");
+        document.Display();
+    }
+}
+
+```
+
+---
+
+## Composite Pattern
+
+> The **Composite Design Pattern** is a structural pattern used to treat individual objects and compositions (groups of objects) uniformly. It is particularly useful when you have a tree-like structure, such as a file system, organization hierarchy, UI components, etc.
+> 
+
+**Use Case**
+
+When your application has to deal with hierarchies where **“part-whole”** relationships exist — and you want to treat both individual objects and groups of objects the same way.
+
+**Key Concept**
+
+- **Component**: The base interface or abstract class for all objects in the hierarchy.
+- **Leaf**: Represents individual objects that don’t have children.
+- **Composite**: Represents groups that can hold other components (leaf or composite).
+
+```csharp
+namespace CSharpPlayground.src.DesignPatterns.StructuralPattern;
+
+// Component
+public abstract class FileSystemItem(string name)
+{
+    protected string name = name;
+
+    public abstract void Display(int indent = 0);
+}
+
+// Leaf
+public class File(string name) : FileSystemItem(name)
+{
+    public override void Display(int indent = 0)
+    {
+        Console.WriteLine(new string('-', indent) + "File: " + name);
+    }
+}
+
+// Composite
+public class Folder(string name) : FileSystemItem(name)
+{
+    private readonly List<FileSystemItem> children = [];
+
+    public void Add(FileSystemItem item)
+    {
+        children.Add(item);
+    }
+
+    public void Remove(FileSystemItem item)
+    {
+        children.Remove(item);
+    }
+
+    public override void Display(int indent = 0)
+    {
+        Console.WriteLine(new string('-', indent) + "Folder: " + name);
+        foreach (var child in children)
+        {
+            child.Display(indent + 2);
+        }
+    }
+}
+
+public class CompositePattern
+{
+    public static void Run()
+    {
+        var root = new Folder("Root");
+
+        var file1 = new File("File1.txt");
+        var file2 = new File("File2.txt");
+
+        var subFolder = new Folder("SubFolder");
+        subFolder.Add(new File("SubFile1.txt"));
+
+        root.Add(file1);
+        root.Add(file2);
+        root.Add(subFolder);
+
+        root.Display();
+    }
+}
+
+```

@@ -28,7 +28,17 @@ export default async function BlogPage() {
           <Link
             key={post.slug}
             href={`/blog/${post.slug}`}
-            className="p-2 px-3 border border-gray-700 rounded-lg hover:shadow-sm transition"
+            className={`
+            p-2 px-3 
+            border border-gray-700 
+            rounded-lg 
+            transition-all duration-200 ease-in-out 
+            transform 
+            hover:scale-[1.02] 
+            hover:shadow-md 
+            hover:bg-gray-100 
+            dark:hover:bg-[#3030309e]
+          `}
           >
             <p className="text-sm font-mono font-medium text-gray-800 pb-1 dark:text-gray-300">
               {post.title}
