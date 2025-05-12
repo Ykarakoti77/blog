@@ -23,7 +23,7 @@ export default async function BlogPage() {
         Some notes, ideas, and writeups I’ve published over time.
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 gap-4">
         {posts.map((post) => (
           <Link
             key={post.slug}
