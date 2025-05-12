@@ -30,11 +30,11 @@ export default async function BlogPage() {
             href={`/blog/${post.slug}`}
             className={`
             p-2 px-3 
-            border border-gray-700 
-            rounded-lg 
+            border border-gray-300 
+            dark:border-[#4b49499e]
+            rounded-md
             transition-all duration-200 ease-in-out 
             transform 
-            hover:scale-[1.02] 
             hover:shadow-md 
             hover:bg-gray-100 
             dark:hover:bg-[#3030309e]
