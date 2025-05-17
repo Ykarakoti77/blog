@@ -85,9 +85,7 @@ export default async function BlogPost(props: BlogPostProps) {
   });
 
   const formattedDate = format(new Date(frontmatter.date), "d LLLL yyyy");
-  const relativeDate = formatDistanceToNow(new Date(frontmatter.date), {
-    addSuffix: true,
-  });
+  const relativeDate = formatDistanceToNow(formattedDate, { addSuffix: true });
 
   return (
     <div className="max-w-3xl mx-auto font-sans">
