@@ -6,7 +6,7 @@ import path from "path";
 import matter from "gray-matter";
 import { compileMDX } from "next-mdx-remote/rsc";
 import { Metadata } from "next";
-import { format, formatDistanceToNow } from "date-fns";
+import { format } from "date-fns";
 import prettyCodePlugin from "@/lib/rehype-pretty-config";
 import remarkGfm from "remark-gfm";
 import RelativeDate from "@/components/RelativeDate";
