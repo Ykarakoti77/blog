@@ -9,6 +9,7 @@ import { Metadata } from "next";
 import { format, formatDistanceToNow } from "date-fns";
 import prettyCodePlugin from "@/lib/rehype-pretty-config";
 import remarkGfm from "remark-gfm";
+import RelativeDate from "@/components/RelativeDate";
 
 interface BlogPostProps {
   params: Promise<{
@@ -85,7 +86,6 @@ export default async function BlogPost(props: BlogPostProps) {
   });
 
   const formattedDate = format(new Date(frontmatter.date), "d LLLL yyyy");
-  const relativeDate = formatDistanceToNow(formattedDate, { addSuffix: true });
 
   return (
     <div className="max-w-3xl mx-auto font-sans">
@@ -94,7 +94,8 @@ export default async function BlogPost(props: BlogPostProps) {
           {frontmatter.title}
         </h1>
         <p className="text-xs text-gray-500 dark:text-gray-400 font-medium font-mono mt-2">
-          @{frontmatter.author} | {formattedDate} ({relativeDate})
+          @{frontmatter.author} | {formattedDate}{" "}
+          <RelativeDate date={frontmatter.date} />
         </p>
         {frontmatter.description && (
           <p className="text-base text-gray-500 font-light mt-3 dark:text-gray-400">
