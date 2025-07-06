@@ -62,11 +62,7 @@ export default function HomePage() {
             clean architecture and a strong emphasis on performance and
             reliability.
           </p>
-          <p>
-            At Shipotle Technologies, I work on designing and developing backend
-            systems that power real-world applications, with an emphasis on
-            robustness and maintainability.
-          </p>
+          <p>I currently work as a Software Development Engineer at Zomato.</p>
         </div>
 
         {/* Image on the right */}
